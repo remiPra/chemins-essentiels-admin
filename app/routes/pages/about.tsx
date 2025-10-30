@@ -1,54 +1,46 @@
-import { useState, useEffect } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { useState } from "react";
+import PageEditor from "../../components/PageEditor";
+import PageRenderer from "../../components/PageRenderer";
 
 export default function AboutPage() {
-  const [content, setContent] = useState({ title: "", text: "" });
-
-  useEffect(() => {
-    const load = async () => {
-      const ref = doc(db, "content", "about");
-      const snap = await getDoc(ref);
-      if (snap.exists()) setContent(snap.data());
-    };
-    load();
-  }, []);
-
-  const handleChange = (e: any) =>
-    setContent({ ...content, [e.target.name]: e.target.value });
-
-  const handleSave = async () => {
-    const ref = doc(db, "content", "about");
-    await updateDoc(ref, content);
-    alert("✅ Page 'À propos' mise à jour !");
-  };
+  const [mode, setMode] = useState<"view" | "edit">("view");
 
   return (
     <div>
-      <h1 className="text-3xl text-[#d4af37] mb-6 font-bold">À propos</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-3xl text-[#d4af37] font-bold">💫 Page À propos</h1>
+        
+        <div className="flex gap-2">
+          <button
+            onClick={() => setMode("view")}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              mode === "view"
+                ? "bg-[#d4af37] text-black"
+                : "bg-[#101734] text-gray-400 hover:text-white border border-[#d4af37]/30"
+            }`}
+          >
+            👁️ Voir
+          </button>
+          <button
+            onClick={() => setMode("edit")}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              mode === "edit"
+                ? "bg-[#d4af37] text-black"
+                : "bg-[#101734] text-gray-400 hover:text-white border border-[#d4af37]/30"
+            }`}
+          >
+            ✏️ Modifier
+          </button>
+        </div>
+      </div>
 
-      <label className="block mb-2 text-[#d4af37]">Titre</label>
-      <input
-        name="title"
-        value={content.title}
-        onChange={handleChange}
-        className="w-full mb-4 p-3 rounded bg-[#101734] border border-[#d4af37]/30"
-      />
-
-      <label className="block mb-2 text-[#d4af37]">Texte</label>
-      <textarea
-        name="text"
-        value={content.text}
-        onChange={handleChange}
-        className="w-full h-40 p-3 rounded bg-[#101734] border border-[#d4af37]/30 mb-6"
-      />
-
-      <button
-        onClick={handleSave}
-        className="bg-[#d4af37] text-black font-semibold px-6 py-3 rounded hover:bg-[#f7da83] transition"
-      >
-        💾 Enregistrer
-      </button>
+      <div className="bg-[#101734]/30 rounded-lg p-6 border border-[#d4af37]/20">
+        {mode === "edit" ? (
+          <PageEditor pageId="about" onSave={() => setMode("view")} />
+        ) : (
+          <PageRenderer pageId="about" />
+        )}
+      </div>
     </div>
   );
 }

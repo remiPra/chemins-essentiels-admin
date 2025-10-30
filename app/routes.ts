@@ -11,6 +11,7 @@ export default [
   route("dashboard", "routes/dashboard.tsx", [
     route("home", "routes/pages/home.tsx"),
     route("about", "routes/pages/about.tsx"),
-    route("blog", "routes/pages/blog.tsx"),
+    route("blog", "routes/pages/blog-new.tsx"),
+    route("media", "routes/pages/mediaPage.tsx"),
   ]),
 ] satisfies RouteConfig;
