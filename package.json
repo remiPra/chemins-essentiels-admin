@@ -9,6 +9,8 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.14.3",
+    "@cloudinary/url-gen": "^1.22.0",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
     "firebase": "^12.4.0",

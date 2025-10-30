@@ -9,8 +9,8 @@ export default function MediaPage() {
     data.append("file", file);
     data.append("upload_preset", "chemins-essentiels");
 
-    const res = await fetch("https://api.cloudinary.com/v1_1/<ton-cloud>/image/upload", {
-      method: "POST",
+    const res = await fetch("https://api.cloudinary.com/v1_1/djna9jor7/image/upload", {
+    method: "POST",
       body: data,
     });
     const result = await res.json();
